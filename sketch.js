@@ -9,11 +9,12 @@ let radSym;
 let reflSlider;
 let strSlider;
 let colorPicker;
-
+let noiseOff = 0.0;
+let ellipseSize = 50;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(220);
+  //background(220);
   angleMode(DEGREES);
   //strokeWeight(5);
 
@@ -21,33 +22,27 @@ function setup() {
   clearButton.position(width / 40 - clearButton.width / 40, 50);
   clearButton.mousePressed(clearScreen);
   clearButton.class("clearButton");
-  text('Clear screen', clearButton.x * 2 + clearButton.width, 75);
 
   saveButton = createButton('Save');
   saveButton.position(width / 40 - saveButton.width / 40, 100);
   saveButton.mousePressed(saveImg);
   saveButton.class("saveButton");
-  text('Save drawing', saveButton.x * 2 + saveButton.width, 125);
 
   rotationalButton = createButton('Rotational');
   rotationalButton.position(width / 40 - rotationalButton.width / 40, 150);
   rotationalButton.mousePressed(rotateSymmetry);
   rotationalButton.class("rotationalButton");
-  text('Use rotational symmetry', rotationalButton.x * 2 + rotationalButton.width, 175);
 
   radialButton = createButton('Radial');
   radialButton.position(width / 40 - radialButton.width / 40, 200);
   radialButton.mousePressed(radialSymmetry);
   radialButton.class("radialButton");
-  text('Use radial symmetry', radialButton.x * 2 + radialButton.width, 225);
 
   reflSlider = createSlider(2, 15, 6, 1);
   reflSlider.position(width / 40, 250);
-  text('Reflections', reflSlider.x * 1.5 + reflSlider.width, 265);
 
   strSlider = createSlider(1, 5, 2, 1);
   strSlider.position(width / 40, 270);
-  text('Brush Size', strSlider.x * 1.5 + strSlider.width, 285);
 
   colorPicker = createColorPicker('#000000');
   colorPicker.position(width / 40, 300);
@@ -60,9 +55,26 @@ function setup() {
 
 function draw() {
 
+
+  ellipse(width/2,height/2, ellipseSize);
+
+  noiseOff += 0.02;
+  ellipseSize = noise(noiseOff)*100;
+
+  background(220, 220, 220, 5);
   let col = colorPicker.color();
   let val = reflSlider.value(); //
   let angle = 360 / val;
+
+  push();
+  text('Clear screen', clearButton.x * 2 + clearButton.width, 75);
+  text('Save drawing', saveButton.x * 2 + saveButton.width, 125);
+  text('Use rotational symmetry', rotationalButton.x * 2 + rotationalButton.width, 175);
+  text('Use radial symmetry', radialButton.x * 2 + radialButton.width, 225);
+  text('Reflections', reflSlider.x * 1.5 + reflSlider.width, 265);
+  text('Brush Size', strSlider.x * 1.5 + strSlider.width, 285);
+
+  pop();
 
   push();
   translate(width / 2, height / 2);
@@ -111,9 +123,9 @@ function draw() {
   //   console.log('symmetry: rotational');
   // }
   pop();
-  noStroke();
-  fill(220);
-  rect(0, 0, windowWidth, 75);
+  // noStroke();
+  // fill(220);
+  // rect(0, 0, windowWidth, 75);
 }
 
 
@@ -122,7 +134,7 @@ function saveImg() {
 }
 
 function clearScreen() {
-  background(220);
+  clear();
 }
 
 function rotateSymmetry() {
