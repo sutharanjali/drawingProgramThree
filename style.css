@@ -1,0 +1,31 @@
+html, body {
+  margin: 0 auto 0 auto;
+  padding: 0;
+  text-align: CENTER;
+}
+canvas {
+  margin: auto;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: -1;
+/*   display: block;
+  padding: 20px; */
+}
+
+h1 {
+  color: #42dbcf;
+  font-family: 'Barrio';
+}
+
+p {
+  color:#f25aed;
+  font-family: 'ABeeZee';
+}
+
+.saveButton, .clearButton, .rotationalButton, .radialButton {
+  padding:10px;
+  font-family:'Barrio';
+  font-size: 15px;
+
+}
