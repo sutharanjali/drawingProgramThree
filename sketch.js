@@ -59,7 +59,7 @@ function setup() {
 }
 
 function draw() {
-  background(220, 220, 220, 3);
+  background(255, 255, 255, 3);
 
   var diam = 100 + sin(theta) * maxDiameter; //circle size pulses on sine wave
   fill(158, 252, 255);
