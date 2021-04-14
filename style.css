@@ -14,18 +14,20 @@ canvas {
 }
 
 h1 {
-  color: #42dbcf;
+  color: #00f7ff;
   font-family: 'Barrio';
+  margin-bottom: 0px;
 }
 
 p {
   color:#f25aed;
   font-family: 'ABeeZee';
+  margin-top: 5px;
 }
 
-.saveButton, .clearButton, .rotationalButton, .radialButton {
+.saveButton, .clearButton, .rotationalButton, .radialButton, .reflButton, .strButton {
   padding:10px;
-  font-family:'Barrio';
+  font-family:'ABeeZee';
   font-size: 15px;
 
 }

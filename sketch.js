@@ -1,22 +1,22 @@
-//let symmetry = 3;//change to alter number of reflections
-let radial = false;
-
-let strokeThickness = 2;
+let radial = false; //allow toggle between rotational vs radial symmetry
+let strokeThickness = 2; //set default stroke weight
 let saveButton;
 let clearButton;
-let rotSym;
-let radSym;
-let reflSlider;
-let strSlider;
+let rotationalButton;
+let radialButton;
+let reflButton;
+let strButton;
+let reflSlider; //slider to alter number of reflections
+let strSlider; //slider to alter stroke weight
 let colorPicker;
-let noiseOff = 0.0;
-let ellipseSize = 50;
+var maxDiameter; //max size for circle pulse
+var theta;
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  //background(220);
+
   angleMode(DEGREES);
-  //strokeWeight(5);
 
   clearButton = createButton('Clear');
   clearButton.position(width / 40 - clearButton.width / 40, 50);
@@ -38,66 +38,55 @@ function setup() {
   radialButton.mousePressed(radialSymmetry);
   radialButton.class("radialButton");
 
+  reflButton = createButton('Reflections');
+  reflButton.position(width / 40 - reflButton.width / 40, 250)
+  reflButton.class("reflButton")
   reflSlider = createSlider(2, 15, 6, 1);
-  reflSlider.position(width / 40, 250);
+  reflSlider.position(width / 40 + reflButton.width + 20, 260);
 
+  strButton = createButton('Stroke Size');
+  strButton.position(width / 40 - strButton.width / 40, 300)
+  strButton.class("strButton")
   strSlider = createSlider(1, 5, 2, 1);
-  strSlider.position(width / 40, 270);
+  strSlider.position(width / 40 + strButton.width + 20, 310);
 
   colorPicker = createColorPicker('#000000');
-  colorPicker.position(width / 40, 300);
+  colorPicker.position(width / 40, 360);
   colorPicker.size(40, 40);
 
-
-
-
+  maxDiameter = 100;
+  theta = 0;
 }
 
 function draw() {
+  background(220, 220, 220, 3);
 
+  var diam = 100 + sin(theta) * maxDiameter; //circle size pulses on sine wave
+  fill(158, 252, 255);
+  noStroke();
+  ellipse(width / 2, height / 2, diam, diam);
+  theta += .50;
 
-  ellipse(width/2,height/2, ellipseSize);
-
-  noiseOff += 0.02;
-  ellipseSize = noise(noiseOff)*100;
-
-  background(220, 220, 220, 5);
-  let col = colorPicker.color();
-  let val = reflSlider.value(); //
-  let angle = 360 / val;
-
-  push();
-  text('Clear screen', clearButton.x * 2 + clearButton.width, 75);
-  text('Save drawing', saveButton.x * 2 + saveButton.width, 125);
-  text('Use rotational symmetry', rotationalButton.x * 2 + rotationalButton.width, 175);
-  text('Use radial symmetry', radialButton.x * 2 + radialButton.width, 225);
-  text('Reflections', reflSlider.x * 1.5 + reflSlider.width, 265);
-  text('Brush Size', strSlider.x * 1.5 + strSlider.width, 285);
-
-  pop();
+  let col = colorPicker.color(); //variable to store color picker value
+  let val = reflSlider.value(); //store # of reflections value
+  let angle = 360 / val; //make reflections
 
   push();
-  translate(width / 2, height / 2);
+  translate(width / 2, height / 2); //reflect and draw around center of canvas
   let mx = mouseX - width / 2;
   let my = mouseY - height / 2;
   let pmx = pmouseX - width / 2;
   let pmy = pmouseY - height / 2;
-  stroke(col);
-
-
-  //fill('red');
-  //ellipse(0,0, mouseX);
-
+  stroke(col); //set stroke color based on color picker value
 
   if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
     if (mouseIsPressed) {
       for (let i = 0; i < val; i++) {
-        rotate(angle);
-        let strVal = strSlider.value();
-        strokeWeight(strVal);
+        rotate(angle); //draw the rotations/reflections
+        let strVal = strSlider.value(); //store stroke weight from slider
+        strokeWeight(strVal); //use stroke weight from slider
         line(mx, my, pmx, pmy);
-
-        if (radial == true) {
+        if (radial == true) { //if radial is true draw using radial symmetry
           push();
           scale(1, -1);
           line(mx, my, pmx, pmy);
@@ -105,35 +94,15 @@ function draw() {
         }
       }
     }
-    if (key === '1') {
-      strokeThickness = 1;
-    } else if (key === '2') {
-      strokeThickness = 2;
-    } else if (key === '3') {
-      strokeThickness = 3;
-    } else if (key === '4') {
-      strokeThickness = 4;
-    } else if (key === '5') {
-      strokeThickness = 5;
-    }
   }
-  // if(radial == true) {
-  //   console.log('symmetry: radial');
-  // } else {
-  //   console.log('symmetry: rotational');
-  // }
   pop();
-  // noStroke();
-  // fill(220);
-  // rect(0, 0, windowWidth, 75);
 }
 
-
-function saveImg() {
+function saveImg() { //save image to computer
   saveCanvas('fileName', 'png');
 }
 
-function clearScreen() {
+function clearScreen() { //clear canvas
   clear();
 }
 
